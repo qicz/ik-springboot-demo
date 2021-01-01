@@ -1,5 +1,5 @@
 spring:
   application:
-    name: abaa
-server:
-  port: 1999
+    name: ik-demo-dev
+  profiles:
+    active: dev

@@ -1,5 +1,5 @@
 spring:
   application:
     name: ik-demo-dev
-  profiles:
-    active: test
+server:
+  port: 18080
