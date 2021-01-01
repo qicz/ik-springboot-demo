@@ -2,4 +2,4 @@ spring:
   application:
     name: ik-demo-dev
   profiles:
-    active: test
+    active: dev

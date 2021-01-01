@@ -17,7 +17,8 @@ public class IKConfig {
     public Configuration ikConfiguration() {
         String path = System.getProperty("user.dir");
         // 仅在idea中实时调试需要，与config所在的目录必须一致，此处为ik-demo-config/resources
-        if (path.endsWith("ik-demo-parent")) {
+        boolean inIdea = path.endsWith("ik-demo-parent");
+        if (inIdea) {
             path += "/ik-demo-config/resources";
         }
         Environment environment = new Environment(Settings.builder().put("path.home", path).build(), null);

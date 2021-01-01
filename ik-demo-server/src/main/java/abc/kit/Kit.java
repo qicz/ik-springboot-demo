@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.StringJoiner;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -30,14 +31,15 @@ public final class Kit {
         if (source != null) {
             String absolutePath = source.getAbsolutePath();
             boolean aJar = absolutePath.endsWith("jar");
+            String configPath = "config";
             if (aJar) {
-                File config = new File(System.getProperty("user.dir") + "/config");
+                configPath += "/";
+                File config = new File(System.getProperty("user.dir") + configPath);
                 if (!config.exists()) {
                     if (!config.mkdir()) {
                         return;
                     }
                     JarFile jarFile = new JarFile(source);
-                    final String configPath = "config/";
                     for (Enumeration<? extends ZipEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
                         ZipEntry entry = entries.nextElement();
                         String entryName = entry.getName();
@@ -69,9 +71,11 @@ public final class Kit {
                     }
                 }
             } else {
-                absolutePath += "/config";
-                File file = new File(absolutePath);
-                FileUtils.copyDirectory(file, new File("config"));
+                StringJoiner path = new StringJoiner("/");
+                path.add(absolutePath);
+                path.add(configPath);
+                File file = new File(path.toString());
+                FileUtils.copyDirectory(file, new File(configPath));
             }
         }
     }

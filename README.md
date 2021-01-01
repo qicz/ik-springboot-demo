@@ -1,12 +1,52 @@
 # ik springboot demo
 
-> 主要测试验证ik的字典引入方式及分词
-
-
+> 主要测试验证ik的字典引入方式及分词，以及配置资源的管理
 
 ### 重点及注意事项
 
 - ik-demo-server（启动类所在module）
+
+  - 使用Java代码拷贝【推荐】
+
+    - ik-demo-config的目录结构
+
+      ```
+      ik-demo-config/config/analysis-ik...application.yml
+      ```
+
+      > resources直接放入config目录，config目录包括SpringBoot的配置文件及ik配置文件。这样便于应用启动时，从jar中拷贝config到jar同级目录。依赖org.apache.commons.io。
+
+    - pom.xml 配置
+
+      ```xml
+       <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.springframework.boot</groupId>
+                      <artifactId>spring-boot-maven-plugin</artifactId>
+                      <configuration>
+                          <mainClass>abc.App</mainClass>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>repackage</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+              <resources>
+                  <resource>
+                      <directory>../ik-demo-config/resources</directory>
+                  </resource>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                  </resource>
+              </resources>
+          </build>
+      ```
+
 
   - 使用maven copy
 
@@ -72,48 +112,8 @@
           </build>
       ```
 
-  - 使用Java代码拷贝
+  - idea中实时调试
 
-    - ik-demo-config的目录结构
-
-      ```
-      ik-demo-config/config/analysis-ik...application.yml
-      ```
-
-      > resources直接放入config目录，config目录包括SpringBoot的配置文件及ik配置文件。这样便于应用启动时，从jar中拷贝config到jar同级目录。依赖org.apache.commons.io。
-
-    - pom.xml 配置
-
-      ```xml
-       <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.springframework.boot</groupId>
-                      <artifactId>spring-boot-maven-plugin</artifactId>
-                      <configuration>
-                          <mainClass>abc.App</mainClass>
-                      </configuration>
-                      <executions>
-                          <execution>
-                              <goals>
-                                  <goal>repackage</goal>
-                              </goals>
-                          </execution>
-                      </executions>
-                  </plugin>
-              </plugins>
-              <resources>
-                  <resource>
-                      <directory>../ik-demo-config/resources</directory>
-                  </resource>
-                  <resource>
-                      <directory>src/main/resources</directory>
-                  </resource>
-              </resources>
-          </build>
-      ```
-
-- idea中实时调试
 
   ```java
   @org.springframework.context.annotation.Configuration
