@@ -6,62 +6,112 @@
 
 ### 重点及注意事项
 
-- ik-demo-config的目录结构
+- ik-demo-server（启动类所在module）
 
-  > resources仅放入SpringBoot的配置文件，config放入ik配置文件，这样可以减少SpringBoot打包到时候将ik的配置文件（有点大）一起打包到jar中。
+  - 使用maven copy
 
-- ik-demo-server（启动类所在module）的pom.xml 配置
+    - ik-demo-config的目录结构
 
-  ```xml
-  <build>
-          <plugins>
-              <plugin>
-                  <groupId>org.springframework.boot</groupId>
-                  <artifactId>spring-boot-maven-plugin</artifactId>
-                  <configuration>
-                      <mainClass>abc.App</mainClass>
-                  </configuration>
-                  <executions>
-                      <execution>
-                          <goals>
-                              <goal>repackage</goal>
-                          </goals>
-                      </execution>
-                  </executions>
-              </plugin>
-              <plugin> <!-- 拷贝ik配置到${project.build.directory}/config下 -->
-                  <artifactId>maven-resources-plugin</artifactId>
-                  <version>2.6</version>
-                  <executions>
-                      <execution>
-                          <id>copy-resources</id> <!-- here the phase you need -->
-                          <phase>validate</phase>
-                          <goals>
-                              <goal>copy-resources</goal>
-                          </goals>
-                          <configuration> <!--copyTo的目录-->
-                              <outputDirectory>${project.build.directory}/config</outputDirectory>
-                              <resources>
-                                  <resource> <!--被copy的目录-->
-                                      <directory>../ik-demo-config/config</directory>
-                                      <filtering>true</filtering>
-                                  </resource>
-                              </resources>
-                          </configuration>
-                      </execution>
-                  </executions>
-              </plugin>
-          </plugins>
-          <resources> <!-- 指定SpringBoot资源配置位置 -->
-              <resource>
-                  <directory>../ik-demo-config/resources</directory>
-              </resource>
-              <resource>
-                  <directory>src/main/resources</directory>
-              </resource>
-          </resources>
-      </build>
-  ```
+      ```
+      ik-demo-config/resources/application.yml
+      ik-demo-config/config/analysis-ik
+      ```
+
+      > resources仅放入SpringBoot的配置文件，config放入ik配置文件，这样可以减少SpringBoot打包到时候将ik的配置文件（有点大）一起打包到jar中。
+
+    - pom.xml 配置
+
+      ```xml
+      <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.springframework.boot</groupId>
+                      <artifactId>spring-boot-maven-plugin</artifactId>
+                      <configuration>
+                          <mainClass>abc.App</mainClass>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>repackage</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  <plugin> <!-- 拷贝ik配置到${project.build.directory}/config下 -->
+                      <artifactId>maven-resources-plugin</artifactId>
+                      <version>2.6</version>
+                      <executions>
+                          <execution>
+                              <id>copy-resources</id> <!-- here the phase you need -->
+                              <phase>validate</phase>
+                              <goals>
+                                  <goal>copy-resources</goal>
+                              </goals>
+                              <configuration> <!--copyTo的目录-->
+                                  <outputDirectory>${project.build.directory}/config</outputDirectory>
+                                  <resources>
+                                      <resource> <!--被copy的目录-->
+                                          <directory>../ik-demo-config/config</directory>
+                                          <filtering>true</filtering>
+                                      </resource>
+                                  </resources>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+              <resources> <!-- 指定SpringBoot资源配置位置 -->
+                  <resource>
+                      <directory>../ik-demo-config/resources</directory>
+                  </resource>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                  </resource>
+              </resources>
+          </build>
+      ```
+
+  - 使用Java代码拷贝
+
+    - ik-demo-config的目录结构
+
+      ```
+      ik-demo-config/config/analysis-ik...application.yml
+      ```
+
+      > resources直接放入config目录，config目录包括SpringBoot的配置文件及ik配置文件。这样便于应用启动时，从jar中拷贝config到jar同级目录。依赖org.apache.commons.io。
+
+    - pom.xml 配置
+
+      ```xml
+       <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.springframework.boot</groupId>
+                      <artifactId>spring-boot-maven-plugin</artifactId>
+                      <configuration>
+                          <mainClass>abc.App</mainClass>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>repackage</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+              <resources>
+                  <resource>
+                      <directory>../ik-demo-config/resources</directory>
+                  </resource>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                  </resource>
+              </resources>
+          </build>
+      ```
 
 - idea中实时调试
 

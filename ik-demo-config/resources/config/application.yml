@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: abaa
+server:
+  port: 1999
