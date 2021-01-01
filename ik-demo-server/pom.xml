@@ -65,10 +65,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration> <!--copyTo的目录-->
-                            <outputDirectory>${project.build.directory}/ik-demo-config</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource> <!--被copy的目录-->
-                                    <directory>../ik-demo-config</directory>
+                                    <directory>../ik-demo-config/resources</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
@@ -79,7 +79,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>../ik-demo-config/config</directory>
+                <directory>../ik-demo-config/resources</directory>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>

@@ -9,8 +9,6 @@ import org.wltea.analyzer.core.Lexeme;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.StringJoiner;
 
 /**
@@ -21,14 +19,19 @@ import java.util.StringJoiner;
 @Component
 public class ABC {
 
-    static String text = "IK Analyzer是一个结合词典分词和文法分词的中文分词开源工具包。它使用了全新的正向迭代最细粒度切分算法。";
+    static String text = "123abc;；.。。。\\l a吃 IK Analyzer是一个结合词典分词和文法分词的中文分词开源工具包。它使用了全新的正向迭代最细粒度切分算法。";
 
     public ABC() throws IOException {
         this.ddoo();
     }
 
     public void ddoo() throws IOException {
-        String path = Paths.get(System.getProperty("user.dir")).resolve("ik-demo-config").toString();
+        String path = System.getProperty("user.dir");
+
+        // 仅在idea中实时调试需要，与config所在的目录必须一致，此处为ik-demo-config/resources
+        if (path.endsWith("ik-demo-parent")) {
+            path += "/ik-demo-config/resources";
+        }
         System.out.println("====path========="+path);
 
         Settings settings =  Settings.builder()
