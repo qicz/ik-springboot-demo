@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: ik-demo-dev
-  profiles:
-    active: dev

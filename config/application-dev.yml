@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: ik-demo-dev
-server:
-  port: 18080
